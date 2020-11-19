@@ -30,7 +30,7 @@
 | shipping_charges_id | integer    | null: false                    |
 | shipping_area_id    | integer    | null: false                    |
 | days_to_ship_id     | integer    | null: false                    |
-| item_price          | string     | null: false                    |
+| item_price          | integer    | null: false                    |
 | user                | references | foreign_key: true              |
 
 
