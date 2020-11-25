@@ -7,12 +7,19 @@ class User < ApplicationRecord
   has_many :comments
   has_many :purchases
 
+  with_options presence: true, format: { with: /\A[ぁ-んァ-ンー-龥]+\z/, message: '全角文字を使用してください'} do
+    validates :first_name
+    validates :last_name
+  end
+
+  with_options presence: true, format: { with: /\A[ァ-ンー]+\z/, message: '全角カナを使用してください'} do
+    validates :first_name_kana
+    validates :last_name_kana
+  end
+    
   validates :nickname,  presence: true, length: { maximum: 40 }
-  validates :last_name, presence: true
-  validates :first_name, presence: true
-  validates :last_name_kana, presence: true
-  validates :first_name_kana, presence: true
   validates :birthday, presence: true
   VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/.freeze
   validates :password, presence: true, length: { minimum: 6, maximum: 32 }, format: { with: VALID_PASSWORD_REGEX }
+  validates :email, uniqueness: true
 end
