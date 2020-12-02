@@ -10,14 +10,13 @@ describe Item do
         expect(@item).to be_valid
       end
       it "価格の範囲が、¥300~¥9,999,999の間であると出品できる" do
-        @item.item_price = '9999999'
+        @item.item_price = 9999999
         expect(@item).to be_valid
       end
       it "価格の範囲が、¥300~¥9,999,999の間であると出品できる" do
-        @item.item_price = '300'
+        @item.item_price = 300
         expect(@item).to be_valid
       end
-      it "販売価格は半角数字のみ保存可能であること"
     end
 
     context '商品出品機能がうまくいかないとき' do
@@ -36,30 +35,70 @@ describe Item do
         @item.valid?
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
+      it "category_idが1だと出品できない" do
+        @item.category_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
+      end
       it "condition_idが空だと出品できない" do
         @item.condition_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Condition can't be blank")
+      end
+      it "condition_idが1だと出品できない" do
+        @item.condition_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Condition must be other than 1")
       end
       it "shipping_charges_idが空だと出品できない" do
         @item.shipping_charges_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping charges can't be blank")
       end
+      it "shipping_charges_idが1だと出品できない" do
+        @item.shipping_charges_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping charges must be other than 1")
+      end
       it "shipping_area_idが空だと出品できない" do
         @item.shipping_area_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Shipping area can't be blank")
+      end
+      it "shipping_area_idが1だと出品できない" do
+        @item.shipping_area_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping area must be other than 1")
       end
       it "days_to_ship_idが空だと出品できない" do
         @item.days_to_ship_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Days to ship can't be blank")
       end
+      it "days_to_ship_idが1だと出品できない" do
+        @item.days_to_ship_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Days to ship must be other than 1")
+      end
       it "item_priceが空だと出品できない" do
         @item.item_price = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Item price can't be blank")
+      end
+      it "販売価格は全角数字だと保存できない" do
+        @item.item_price = '３００'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Item price is not included in the list")
+      end
+      it "販売価格が300円未満では出品できない" do
+        @item.item_price = 299
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Item price is not included in the list")
+      end
+      it "販売価格が10000000円では出品できない" do
+        @item.item_price = 10000000
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Item price is not included in the list")
       end
     end
   end
