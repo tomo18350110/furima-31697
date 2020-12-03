@@ -17,7 +17,7 @@ class Item < ApplicationRecord
   
 
   validates :item_price,          presence: true, format: { with: /\A[0-9]+\z/ }, inclusion: { in: 300..9999999 }
-  validates :category_id, numericality: { other_than: 1 }
+  
   #has_many   :comments
   #has_one    :purchase
   belongs_to :user
